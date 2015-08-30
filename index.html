@@ -5,41 +5,74 @@
 		<title>D3: Loading GeoJSON data and generating SVG paths</title>
 		<script type="text/javascript" src="d3/d3.min.js"></script>
 		<script src="http://d3js.org/topojson.v1.min.js"></script>
+		<!--<script src="html5slider.js"</script>-->
 		<style type="text/css">
 			/* No style rules here yet */		
 		</style>
 	</head>
 	<body>
+		<span id="range">2007</span>
+		<input id="slider" type="range" min="2007" max="2014" value="1987" step="1" />
+		<span id="range">2014</span> 
+		<p>2014</p>
+		<!-- <script type="text/javascript">
+		// onload = function() {
+		//   var $ = function(id) { return document.getElementById(id); };
+		//   $('slider').oninput = function() { $('range').innerHTML = this.value; };
+		//   $('slider').oninput();
+		// };
+		//-->
 		<script type="text/javascript">
 			//Width and height
-			var w = 960;
-			var h = 480;
+			var width = 960;
+			var height = 480;
+			var scale0 = (width-1) / 2 / Math.PI;
+			
 			//Define default path generator
 			//var projection = d3.geo.albersUSA();
 			var projection = d3.geo.albers()
-	        .translate([w/2, h/2])
+	        .translate([width/2, height/2])
 	        .scale(30000)
 	        .rotate([119.0167, 0])
 	        .center([0, 35.3667]); 
+			
+		
 			var path = d3.geo.path()
 			.projection(projection);
 			//.projection(projection);
 			
+			
 			//Create SVG element
 			var svg = d3.select("body")
 						.append("svg")
-						.attr("width", w)
-						.attr("height", h);
+						.attr("width", width)
+						.attr("height", height);
+			
 			//Load in GeoJSON data
 			d3.json("kerntest50.json", function(json) {
-				
 				//Bind data and create one path per GeoJSON feature
 				svg.selectAll("path")
 				   .data(json.features)
 				   .enter()
 				   .append("path")
-				   .attr("d", path);
+				   .attr("d", path)
+				   .style("fill", function(d) {
+					   var value = d.properties.ALMOND;
+					   // console.log(value)
+					   if (value) {
+						   return "steelblue";
+					   } else {
+						   return "#ccc";
+					   }
+				   });
+				   
 		
+			});
+			var year = d3.select("p");
+			
+		    d3.select("input[type=range]").on("change", function() {
+		        new_year = this.value;
+		        year.text(new_year);
 			});
 			
 		</script>

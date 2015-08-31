@@ -3,7 +3,7 @@
 <style>
 
 svg {
-  background: #eee;
+  background: #fff;
 }
 
 .sphere {
@@ -11,8 +11,13 @@ svg {
 }
 
 .land {
+  fill: #ccc;
+}
+
+.land {
   fill: #000;
 }
+
 
 .boundary {
   fill: none;
@@ -33,13 +38,13 @@ svg {
 <body>
 <script>
 
-var width = 960,
-    height = 480;
+var width = 480*2,
+    height = 480*2;
 
 var projection = d3.geo.albers()
     .translate([width/2, height/2])
-    .scale(30000)
-    .rotate([119.0167, 0])
+    .scale(40000)
+    .rotate([119.3408, 0])
     .center([0, 35.3667]); 
     // .scale((width - 1) / 2 / Math.PI);
 
